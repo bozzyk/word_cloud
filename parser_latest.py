@@ -32,10 +32,16 @@ def days_amount():
 #TODO: user-agents and proxy
 def get_html(url):
     print ('connecting to ' + url)
+    retries = 0
     while True:
-        response = requests.get(url)
+        try:
+            response = requests.get(url)
+        except requests.exceptions.ConnectionError:
+            return ''
         if response.status_code != 200:
+            if retries > 10: return ''
             print ('retrying '+url)
+            retries += 1
             sleep(1)
             continue
         return response.text
