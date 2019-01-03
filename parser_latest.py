@@ -36,7 +36,7 @@ def get_html(url):
     while True:
         try:
             response = requests.get(url)
-        except requests.exceptions.ConnectionError:
+        except (requests.exceptions.ConnectionError, requests.exceptions.ContentDecodingError):
             return ''
         if response.status_code != 200:
             if retries > 10: return ''
